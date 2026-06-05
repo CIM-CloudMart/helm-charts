@@ -1,0 +1,132 @@
+# Global values for CloudMart microservices
+global:
+  # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
+  registry: ""
+  environment: production
+  namespace: cloudmart-prod
+
+# Shared Configuration settings for the microservices
+config:
+  productStoreBackend: "memory"       # dynamodb | firestore | cosmosdb | memory
+  orderQueueBackend: "memory"         # sqs | pubsub | servicebus | memory
+  notificationQueueBackend: "memory"  # sqs | pubsub | servicebus | memory
+  notificationEmailBackend: "console"  # ses | sendgrid | console
+  notificationPollInterval: "5000"    # in milliseconds
+  userDbBackend: "memory"             # postgres | memory
+
+# Shared secrets
+secrets:
+  jwtSecret: "cloudmart-dev-secret-change-in-production"
+
+# Subchart: frontend
+frontend:
+  replicaCount: 1
+  image:
+    repository: "frontend"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "16Mi"
+    limits:
+      cpu: "100m"
+      memory: "32Mi"
+  service:
+    type: "ClusterIP"
+    port: 80
+  ingress:
+    enabled: false
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+    hosts:
+      - host: "cloudmart.example.com"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+
+# Subchart: product
+product:
+  replicaCount: 1
+  image:
+    repository: "product-service"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8001
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "product-service-sa"
+
+# Subchart: order
+order:
+  replicaCount: 1
+  image:
+    repository: "order-service"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8002
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "order-service-sa"
+
+# Subchart: user
+user:
+  replicaCount: 1
+  image:
+    repository: "user-service"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8003
+
+# Subchart: notification
+notification:
+  replicaCount: 1
+  image:
+    repository: "notification-service"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "32Mi"
+    limits:
+      cpu: "100m"
+      memory: "64Mi"
+  service:
+    type: "ClusterIP"
+    port: 8004
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "notification-service-sa"

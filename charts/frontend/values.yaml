@@ -1,0 +1,26 @@
+replicaCount: 1
+image:
+  repository: "frontend"
+  tag: "latest"
+  pullPolicy: "IfNotPresent"
+resources:
+  requests:
+    cpu: "10m"
+    memory: "16Mi"
+  limits:
+    cpu: "100m"
+    memory: "32Mi"
+service:
+  type: "ClusterIP"
+  port: 80
+ingress:
+  enabled: false
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "ip"
+  hosts:
+    - host: "cloudmart.example.com"
+      paths:
+        - path: "/"
+          pathType: "Prefix"

@@ -1,0 +1,19 @@
+replicaCount: 1
+image:
+  repository: "notification-service"
+  tag: "latest"
+  pullPolicy: "IfNotPresent"
+resources:
+  requests:
+    cpu: "10m"
+    memory: "32Mi"
+  limits:
+    cpu: "100m"
+    memory: "64Mi"
+service:
+  type: "ClusterIP"
+  port: 8004
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "notification-service-sa"
