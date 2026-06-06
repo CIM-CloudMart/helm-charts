@@ -47,3 +47,14 @@ Selector labels
 {{- define "user.selectorLabels" -}}
 app: {{ include "user.fullname" . }}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "user.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{- default (include "user.fullname" .) .Values.serviceAccount.name -}}
+{{- else -}}
+    {{- default "default" .Values.serviceAccount.name -}}
+{{- end -}}
+{{- end -}}

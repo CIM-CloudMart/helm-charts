@@ -20,6 +20,7 @@ spec:
       labels:
         {{- include "user.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "user.serviceAccountName" . }}
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -44,6 +45,9 @@ spec:
                 secretKeyRef:
                   name: cloudmart-secrets
                   key: JWT_SECRET
+            {{- if .Values.extraEnv }}
+            {{- toYaml .Values.extraEnv | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:

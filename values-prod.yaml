@@ -1,0 +1,35 @@
+global:
+  environment: production
+  namespace: cloudmart-prod
+
+frontend:
+  image:
+    repository: "cloudmart-frontend-prod"
+
+product:
+  image:
+    repository: "cloudmart-product-service-prod"
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-product-service-role-prod"
+
+order:
+  image:
+    repository: "cloudmart-order-service-prod"
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-order-service-role-prod"
+
+user:
+  image:
+    repository: "cloudmart-user-service-prod"
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-prod"
+
+notification:
+  image:
+    repository: "cloudmart-notification-service-prod"
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-prod"

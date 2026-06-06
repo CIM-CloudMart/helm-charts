@@ -1,7 +1,7 @@
 # Global values for CloudMart microservices
 global:
   # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
-  registry: ""
+  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
   environment: production
   namespace: cloudmart-prod
 
@@ -20,9 +20,10 @@ secrets:
 
 # Subchart: frontend
 frontend:
+  fullnameOverride: "frontend"
   replicaCount: 1
   image:
-    repository: "frontend"
+    repository: "cloudmart-frontend-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
@@ -49,9 +50,10 @@ frontend:
 
 # Subchart: product
 product:
+  fullnameOverride: "product-service"
   replicaCount: 1
   image:
-    repository: "product-service"
+    repository: "cloudmart-product-service-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
@@ -71,9 +73,10 @@ product:
 
 # Subchart: order
 order:
+  fullnameOverride: "order-service"
   replicaCount: 1
   image:
-    repository: "order-service"
+    repository: "cloudmart-order-service-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
@@ -93,9 +96,10 @@ order:
 
 # Subchart: user
 user:
+  fullnameOverride: "user-service"
   replicaCount: 1
   image:
-    repository: "user-service"
+    repository: "cloudmart-user-service-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
@@ -108,12 +112,17 @@ user:
   service:
     type: "ClusterIP"
     port: 8003
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "user-service-sa"
 
 # Subchart: notification
 notification:
+  fullnameOverride: "notification-service"
   replicaCount: 1
   image:
-    repository: "notification-service"
+    repository: "cloudmart-notification-service-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:

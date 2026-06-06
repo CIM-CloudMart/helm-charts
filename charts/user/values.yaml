@@ -13,3 +13,7 @@ resources:
 service:
   type: "ClusterIP"
   port: 8003
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "user-service-sa"

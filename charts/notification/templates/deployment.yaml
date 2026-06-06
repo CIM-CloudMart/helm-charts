@@ -55,6 +55,9 @@ spec:
                 configMapKeyRef:
                   name: cloudmart-config
                   key: NOTIFICATION_POLL_INTERVAL
+            {{- if .Values.extraEnv }}
+            {{- toYaml .Values.extraEnv | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:

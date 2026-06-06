@@ -45,6 +45,9 @@ spec:
                 configMapKeyRef:
                   name: cloudmart-config
                   key: ORDER_QUEUE_BACKEND
+            {{- if .Values.extraEnv }}
+            {{- toYaml .Values.extraEnv | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:
