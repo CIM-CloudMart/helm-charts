@@ -7,16 +7,16 @@ global:
 
 # Shared Configuration settings for the microservices
 config:
-  productStoreBackend: "memory"       # dynamodb | firestore | cosmosdb | memory
-  orderQueueBackend: "memory"         # sqs | pubsub | servicebus | memory
-  notificationQueueBackend: "memory"  # sqs | pubsub | servicebus | memory
-  notificationEmailBackend: "console"  # ses | sendgrid | console
-  notificationPollInterval: "5000"    # in milliseconds
-  userDbBackend: "memory"             # postgres | memory
+  productStoreBackend: "dynamodb"
+  orderQueueBackend: "sqs"       
+  notificationQueueBackend: "sqs"
+  notificationEmailBackend: "ses"  
+  notificationPollInterval: "5000"  
+  userDbBackend: "postgres"
 
 # Shared secrets
 secrets:
-  jwtSecret: "cloudmart-dev-secret-change-in-production"
+  jwtSecret: "wqd8FAGX1xWDtJTMvaL9D6pCVAG2kM9EF3NbpAJ9hEC"
 
 # Subchart: frontend
 frontend:
