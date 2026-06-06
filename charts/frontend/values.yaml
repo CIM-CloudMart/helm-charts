@@ -20,7 +20,7 @@ ingress:
     alb.ingress.kubernetes.io/scheme: "internet-facing"
     alb.ingress.kubernetes.io/target-type: "ip"
   hosts:
-    - host: "cloudmart.example.com"
+    - host: "cloudmart.example.com" # TODO: Need to change
       paths:
         - path: "/"
           pathType: "Prefix"
