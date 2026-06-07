@@ -24,6 +24,17 @@ frontend:
   image:
     repository: "cloudmart-frontend-staging"
     tag: "amd64"
+  ingress:
+    enabled: true
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+    hosts:
+      - host: ""
+        paths:
+          - path: "/"
+            pathType: "Prefix"
 
 product:
   image:
