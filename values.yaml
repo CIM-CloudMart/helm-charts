@@ -1,9 +1,12 @@
 # Global values for CloudMart microservices
 global:
+  project: "cloudmart"
+  awsAccountId: "779417963796"
   # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
   registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
   environment: production
   namespace: cloudmart-prod
+
 
 # Shared Configuration settings for the microservices
 config:
@@ -28,9 +31,9 @@ cloudConfig:
 externalSecrets:
   enabled: true
   secretStore:
-    roleArn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-prod"
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-prod-XXXXXX"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-prod-XXXXXX"
+    roleArn: ""
+  dbSecretArn: ""
+  jwtSecretArn: ""
 
 # Subchart: frontend
 frontend:

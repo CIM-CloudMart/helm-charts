@@ -49,6 +49,11 @@ spec:
                 configMapKeyRef:
                   name: cloudmart-config
                   key: AWS_REGION
+            - name: AWS_DEFAULT_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudmart-config
+                  key: AWS_REGION
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 }}
             {{- end }}
