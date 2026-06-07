@@ -2,13 +2,28 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cloudmart-config
-  namespace: {{ .Values.global.namespace | default .Release.Namespace }}
 data:
+  # General
+  AWS_REGION: {{ .Values.cloudConfig.awsRegion | quote }}
+  
+  # Product Service
   PRODUCT_STORE_BACKEND: {{ .Values.config.productStoreBackend | quote }}
   PRODUCT_SERVICE_URL: "http://product-service:8001"
+  DYNAMODB_TABLE: {{ .Values.cloudConfig.dynamoDbTable | quote }}
+  
+  # Order Service
   ORDER_QUEUE_BACKEND: {{ .Values.config.orderQueueBackend | quote }}
   ORDER_SERVICE_URL: "http://order-service:8002"
+  SQS_QUEUE_URL: {{ .Values.cloudConfig.sqsQueueUrl | quote }}
+  
+  # Notification Service
   NOTIFICATION_QUEUE_BACKEND: {{ .Values.config.notificationQueueBackend | quote }}
   NOTIFICATION_EMAIL_BACKEND: {{ .Values.config.notificationEmailBackend | quote }}
   NOTIFICATION_POLL_INTERVAL: {{ .Values.config.notificationPollInterval | quote }}
+  FROM_EMAIL: {{ .Values.cloudConfig.fromEmail | quote }}
+  
+  # User Service
   USER_DB_BACKEND: {{ .Values.config.userDbBackend | default "memory" | quote }}
+  DB_HOST: {{ .Values.cloudConfig.dbHost | quote }}
+  DB_PORT: {{ .Values.cloudConfig.dbPort | quote }}
+  DB_NAME: {{ .Values.cloudConfig.dbName | quote }}

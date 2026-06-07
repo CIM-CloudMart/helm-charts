@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "notification.fullname" . }}
-  namespace: {{ .Values.global.namespace | default .Release.Namespace }}
   labels:
     {{- include "notification.labels" . | nindent 4 }}
 spec:
@@ -55,6 +54,21 @@ spec:
                 configMapKeyRef:
                   name: cloudmart-config
                   key: NOTIFICATION_POLL_INTERVAL
+            - name: SQS_QUEUE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudmart-config
+                  key: SQS_QUEUE_URL
+            - name: FROM_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudmart-config
+                  key: FROM_EMAIL
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudmart-config
+                  key: AWS_REGION
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 }}
             {{- end }}

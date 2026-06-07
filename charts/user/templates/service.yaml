@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "user.fullname" . }}
-  namespace: {{ .Values.global.namespace | default .Release.Namespace }}
   labels:
     {{- include "user.labels" . | nindent 4 }}
 spec:
