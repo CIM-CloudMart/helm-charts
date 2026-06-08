@@ -27,6 +27,12 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ if .Values.global.registry }}{{ .Values.global.registry }}/{{ end }}{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -71,3 +77,24 @@ spec:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 30
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+        {{- if .Values.global.xray.enabled }}
+        - name: xray-daemon
+          image: amazon/aws-xray-daemon:3.x
+          ports:
+            - name: xray-ingest
+              containerPort: 2000
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
+        {{- end }}
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}

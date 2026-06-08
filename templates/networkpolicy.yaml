@@ -1,0 +1,191 @@
+# ==================== Network Policies ====================
+# Restricts traffic using the principle of least privilege.
+# Note: Denying all egress requires explicitly allowing DNS resolution.
+
+# 1. Default-Deny All Ingress and Egress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector: {} # Selects all pods in the namespace
+  policyTypes:
+    - Ingress
+    - Egress
+---
+# 2. Allow CoreDNS Egress for all pods
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns-egress
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector: {} # Selects all pods in the namespace
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {} # Allow to kube-system or other namespaces where CoreDNS runs
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+# 3. Frontend Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow external web traffic via ALB Ingress Controller
+    - ports:
+        - protocol: TCP
+          port: 80
+  egress:
+    # Allow connection to backend APIs
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: product
+      ports:
+        - protocol: TCP
+          port: 8001
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: order
+      ports:
+        - protocol: TCP
+          port: 8002
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: user
+      ports:
+        - protocol: TCP
+          port: 8003
+---
+# 4. Product Service Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: product-service-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: product
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow traffic from Frontend proxy and Order Service (stock check)
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: frontend
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: order
+      ports:
+        - protocol: TCP
+          port: 8001
+  egress:
+    # Allow egress to external AWS services (DynamoDB gateway, S3 gateway/interface)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+---
+# 5. Order Service Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: order-service-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: order
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow traffic from Frontend proxy
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: frontend
+      ports:
+        - protocol: TCP
+          port: 8002
+  egress:
+    # Allow stock verification calls to Product Service
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: product
+      ports:
+        - protocol: TCP
+          port: 8001
+    # Allow connection to external AWS services (SQS endpoint or internet)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+---
+# 6. User Service Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: user-service-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: user
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow traffic from Frontend proxy
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: frontend
+      ports:
+        - protocol: TCP
+          port: 8003
+  egress:
+    # Allow connection to external AWS services (RDS PostgreSQL database and Secrets Manager)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+---
+# 7. Notification Service Network Policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: notification-service-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: notification
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress: [] # No ingress traffic allowed to this asynchronous worker
+  egress:
+    # Allow connection to external AWS services (SQS queue to read notifications, and SES to send emails)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0

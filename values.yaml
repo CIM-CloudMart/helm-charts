@@ -6,6 +6,13 @@ global:
   registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
   environment: production
   namespace: cloudmart-prod
+  xray:
+    enabled: false
+
+# Secrets Store CSI configuration
+secretsStoreCSI:
+  enabled: false
+
 
 
 # Shared Configuration settings for the microservices
