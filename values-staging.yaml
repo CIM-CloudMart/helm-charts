@@ -20,7 +20,7 @@ externalSecrets:
 frontend:
   image:
     repository: "779417963796.dkr.ecr.ap-south-1.amazonaws.com/cloudmart-frontend-staging"
-    tag: "75ec781-4"
+    tag: "b1ae76e-5"
   ingress:
     enabled: true
     className: "alb"
