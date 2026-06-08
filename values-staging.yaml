@@ -2,7 +2,7 @@ global:
   environment: staging
   namespace: cloudmart-staging
   awsAccountId: "779417963796"
-  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
+  registry: ""
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-staging"
@@ -19,8 +19,8 @@ externalSecrets:
   jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-staging-j9A3Is"
 frontend:
   image:
-    repository: "cloudmart-frontend-staging"
-    tag: "d220029-8"
+    repository: "779417963796.dkr.ecr.ap-south-1.amazonaws.com/cloudmart-frontend-staging"
+    tag: "d220029-11"
   ingress:
     enabled: true
     className: "alb"
