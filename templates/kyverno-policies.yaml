@@ -1,0 +1,80 @@
+{{- if .Values.kyverno.enabled }}
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-non-root-user-{{ .Release.Namespace }}
+  annotations:
+    policies.kyverno.io/title: "Require Non-Root User"
+    policies.kyverno.io/description: "Enforces that pods run as a non-root user."
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: check-run-as-non-root
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - {{ .Release.Namespace }}
+      validate:
+        message: "Running as root user is not allowed. Pods must set spec.securityContext.runAsNonRoot to true."
+        pattern:
+          spec:
+            securityContext:
+              runAsNonRoot: true
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-privileged-containers-{{ .Release.Namespace }}
+  annotations:
+    policies.kyverno.io/title: "Disallow Privileged Containers"
+    policies.kyverno.io/description: "Disallows the creation of privileged containers."
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: check-privileged
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - {{ .Release.Namespace }}
+      validate:
+        message: "Privileged containers are not allowed."
+        pattern:
+          spec:
+            containers:
+              - =(securityContext):
+                  =(privileged): false
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registry-{{ .Release.Namespace }}
+  annotations:
+    policies.kyverno.io/title: "Restrict Image Registry"
+    policies.kyverno.io/description: "Restricts image pulls to the trusted Amazon ECR registry only."
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: check-image-registry
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - {{ .Release.Namespace }}
+      validate:
+        message: "Images must be pulled from the trusted Amazon ECR registry only."
+        pattern:
+          spec:
+            containers:
+              - image: "{{ .Values.global.awsAccountId }}.dkr.ecr.{{ .Values.cloudConfig.awsRegion }}.amazonaws.com/*"
+{{- end }}

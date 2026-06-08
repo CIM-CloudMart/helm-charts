@@ -2,6 +2,8 @@ global:
   environment: prod
   namespace: production
   awsAccountId: "779417963796"
+  xray:
+    enabled: true
 
 cloudConfig:
   awsRegion: "ap-south-1"

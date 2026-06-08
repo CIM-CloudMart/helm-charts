@@ -163,3 +163,7 @@ notification:
     create: true
     annotations: {}
     name: "notification-service-sa"
+
+# Policy Engine (Kyverno) configurations
+kyverno:
+  enabled: true

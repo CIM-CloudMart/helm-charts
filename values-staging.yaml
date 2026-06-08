@@ -3,6 +3,8 @@ global:
   namespace: staging
   awsAccountId: "779417963796"
   registry: ""
+  xray:
+    enabled: true
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-staging"
