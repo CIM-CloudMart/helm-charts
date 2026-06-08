@@ -5,7 +5,7 @@ global:
   # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
   registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
   environment: production
-  namespace: cloudmart-prod
+  namespace: production
   xray:
     enabled: false
 

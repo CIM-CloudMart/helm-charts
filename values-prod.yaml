@@ -1,6 +1,6 @@
 global:
   environment: prod
-  namespace: cloudmart-prod
+  namespace: production
   awsAccountId: "779417963796"
 
 cloudConfig:

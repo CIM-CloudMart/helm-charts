@@ -1,6 +1,6 @@
 global:
   environment: staging
-  namespace: cloudmart-staging
+  namespace: staging
   awsAccountId: "779417963796"
   registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
 cloudConfig:
