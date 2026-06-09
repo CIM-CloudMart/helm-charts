@@ -1,0 +1,174 @@
+namespace: "cloudmart-prod"
+global:
+  project: "cloudmart"
+  awsAccountId: "779417963796"
+  # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
+  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
+  environment: prod
+  namespace: cloudmart-prod
+  xray:
+    enabled: false
+
+# Secrets Store CSI configuration
+secretsStoreCSI:
+  enabled: false
+
+
+
+# Shared Configuration settings for the microservices
+config:
+  productStoreBackend: "dynamodb"
+  orderQueueBackend: "sqs"       
+  notificationQueueBackend: "sqs"
+  notificationEmailBackend: "ses"  
+  notificationPollInterval: "5000"  
+  userDbBackend: "postgres"
+
+# Cloud configuration (populated dynamically or via env-specific values)
+cloudConfig:
+  awsRegion: "ap-south-1"
+  dynamoDbTable: "cloudmart-products-prod"
+  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
+  fromEmail: "noreply@cloudmart.example"
+  dbHost: "cloudmart-postgres-prod.xxxxxxxx.ap-south-1.rds.amazonaws.com"
+  dbPort: "5432"
+  dbName: "cloudmart"
+
+# External Secrets Operator configuration
+externalSecrets:
+  enabled: true
+  secretStore:
+    roleArn: ""
+  dbSecretArn: ""
+  jwtSecretArn: ""
+
+# Subchart: frontend
+frontend:
+  namespace: "cloudmart-prod"
+  fullnameOverride: "frontend"
+  replicaCount: 2
+  image:
+    repository: "cloudmart-frontend-prod"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "16Mi"
+    limits:
+      cpu: "100m"
+      memory: "32Mi"
+  service:
+    type: "ClusterIP"
+    port: 80
+  ingress:
+    enabled: false
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+    hosts:
+      - host: "cloudmart.example.com"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+
+# Subchart: product
+product:
+  namespace: "cloudmart-prod"
+  fullnameOverride: "product-service"
+  replicaCount: 2
+  image:
+    repository: "cloudmart-product-service-prod"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8001
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "product-service-sa"
+
+# Subchart: order
+order:
+  namespace: "cloudmart-prod"
+  fullnameOverride: "order-service"
+  replicaCount: 2
+  image:
+    repository: "cloudmart-order-service-prod"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8002
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "order-service-sa"
+
+# Subchart: user
+user:
+  namespace: "cloudmart-prod"
+  fullnameOverride: "user-service"
+  replicaCount: 2
+  image:
+    repository: "cloudmart-user-service-prod"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+  service:
+    type: "ClusterIP"
+    port: 8003
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "user-service-sa"
+
+# Subchart: notification
+notification:
+  namespace: "cloudmart-prod"
+  fullnameOverride: "notification-service"
+  replicaCount: 1
+  image:
+    repository: "cloudmart-notification-service-prod"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "32Mi"
+    limits:
+      cpu: "100m"
+      memory: "64Mi"
+  service:
+    type: "ClusterIP"
+    port: 8004
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: "notification-service-sa"
+
+# Policy Engine (Kyverno) configurations
+kyverno:
+  enabled: true

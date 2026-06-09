@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "user.fullname" . }}-pdb
+  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  labels:
+    {{- include "user.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "user.selectorLabels" . | nindent 6 }}
