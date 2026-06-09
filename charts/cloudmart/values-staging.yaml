@@ -3,7 +3,7 @@ global:
   environment: staging
   namespace: cloudmart-staging
   awsAccountId: "779417963796"
-  registry: ""
+  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
   xray:
     enabled: true
 cloudConfig:
@@ -24,7 +24,7 @@ frontend:
   namespace: cloudmart-staging
   replicaCount: 1
   image:
-    repository: "779417963796.dkr.ecr.ap-south-1.amazonaws.com/cloudmart-frontend-staging"
+    repository: "cloudmart-frontend-staging"
     tag: "c78bb38-3"
   ingress:
     enabled: true
