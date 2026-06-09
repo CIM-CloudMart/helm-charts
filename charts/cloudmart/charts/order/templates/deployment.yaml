@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "order.fullname" . }}
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "order.labels" . | nindent 4 }}
 spec:
@@ -45,22 +45,22 @@ spec:
             - name: PRODUCT_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: PRODUCT_SERVICE_URL
             - name: QUEUE_BACKEND
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: ORDER_QUEUE_BACKEND
             - name: SQS_QUEUE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: SQS_QUEUE_URL
             - name: AWS_REGION
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: AWS_REGION
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 }}

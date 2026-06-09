@@ -2,7 +2,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: require-non-root-user-{{ .Values.namespace | default "cloudmart-prod" }}
+  name: require-non-root-user-{{ .Release.Namespace }}
   annotations:
     policies.kyverno.io/title: "Require Non-Root User"
     policies.kyverno.io/description: "Enforces that pods run as a non-root user."
@@ -18,8 +18,7 @@ spec:
               kinds:
                 - Pod
               namespaces:
-                - {{ .Values.namespace | default "cloudmart-prod" }}
-                - {{ .Values.namespace | default "cloudmart-prod" | replace "prod" "staging" }}
+                - {{ .Release.Namespace }}
       validate:
         message: "Running as root user is not allowed. Pods must set spec.securityContext.runAsNonRoot to true."
         pattern:
@@ -30,7 +29,7 @@ spec:
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: disallow-privileged-containers-{{ .Values.namespace | default "cloudmart-prod" }}
+  name: disallow-privileged-containers-{{ .Release.Namespace }}
   annotations:
     policies.kyverno.io/title: "Disallow Privileged Containers"
     policies.kyverno.io/description: "Disallows the creation of privileged containers."
@@ -45,8 +44,7 @@ spec:
               kinds:
                 - Pod
               namespaces:
-                - {{ .Values.namespace | default "cloudmart-prod" }}
-                - {{ .Values.namespace | default "cloudmart-prod" | replace "prod" "staging" }}
+                - {{ .Release.Namespace }}
       validate:
         message: "Privileged containers are not allowed."
         pattern:
@@ -58,7 +56,7 @@ spec:
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: restrict-image-registry-{{ .Values.namespace | default "cloudmart-prod" }}
+  name: restrict-image-registry-{{ .Release.Namespace }}
   annotations:
     policies.kyverno.io/title: "Restrict Image Registry"
     policies.kyverno.io/description: "Restricts image pulls to the trusted Amazon ECR registry only."
@@ -73,8 +71,7 @@ spec:
               kinds:
                 - Pod
               namespaces:
-                - {{ .Values.namespace | default "cloudmart-prod" }}
-                - {{ .Values.namespace | default "cloudmart-prod" | replace "prod" "staging" }}
+                - {{ .Release.Namespace }}
       validate:
         message: "Images must be pulled from the trusted Amazon ECR registry only."
         pattern:

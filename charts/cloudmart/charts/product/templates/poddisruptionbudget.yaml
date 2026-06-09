@@ -2,7 +2,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ include "product.fullname" . }}-pdb
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "product.labels" . | nindent 4 }}
 spec:

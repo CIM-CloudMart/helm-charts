@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudmart-config
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
 data:
   # General
   AWS_REGION: {{ .Values.cloudConfig.awsRegion | quote }}

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "user.fullname" . }}
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "user.labels" . | nindent 4 }}
 spec:
@@ -45,37 +45,37 @@ spec:
             - name: DB_BACKEND
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: USER_DB_BACKEND
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: DB_HOST
             - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: DB_PORT
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: DB_NAME
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: cloudmart-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: DB_USER
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cloudmart-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: DB_PASSWORD
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: cloudmart-secrets
+                  name: {{ .Release.Name }}-secrets
                   key: JWT_SECRET
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 }}

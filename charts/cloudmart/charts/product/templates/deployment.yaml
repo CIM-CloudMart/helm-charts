@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "product.fullname" . }}
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "product.labels" . | nindent 4 }}
 spec:
@@ -45,23 +45,27 @@ spec:
             - name: STORE_BACKEND
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: PRODUCT_STORE_BACKEND
             - name: DYNAMODB_TABLE
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: DYNAMODB_TABLE
             - name: AWS_REGION
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: AWS_REGION
             - name: AWS_DEFAULT_REGION
               valueFrom:
                 configMapKeyRef:
-                  name: cloudmart-config
+                  name: {{ .Release.Name }}-config
                   key: AWS_REGION
+            {{- if .Values.global.xray.enabled }}
+            - name: AWS_XRAY_TRACING_NAME
+              value: "product-service"
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 }}
             {{- end }}
