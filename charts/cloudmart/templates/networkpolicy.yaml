@@ -2,38 +2,8 @@
 # Restricts traffic using the principle of least privilege.
 # Note: Denying all egress requires explicitly allowing DNS resolution.
 
-# 1. Default-Deny All Ingress and Egress
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: default-deny-all
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
-spec:
-  podSelector: {} # Selects all pods in the namespace
-  policyTypes:
-    - Ingress
-    - Egress
----
-# 2. Allow CoreDNS Egress for all pods
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-dns-egress
-  namespace: {{ .Values.namespace | default "cloudmart-prod" }}
-spec:
-  podSelector: {} # Selects all pods in the namespace
-  policyTypes:
-    - Egress
-  egress:
-    - to:
-        - namespaceSelector: {} # Allow to kube-system or other namespaces where CoreDNS runs
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
----
 # 3. Frontend Network Policy
+
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

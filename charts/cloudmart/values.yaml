@@ -93,7 +93,7 @@ product:
     type: "ClusterIP"
     port: 8001
   serviceAccount:
-    create: true
+    create: false
     annotations: {}
     name: "product-service-sa"
 
@@ -117,7 +117,7 @@ order:
     type: "ClusterIP"
     port: 8002
   serviceAccount:
-    create: true
+    create: false
     annotations: {}
     name: "order-service-sa"
 
@@ -141,7 +141,7 @@ user:
     type: "ClusterIP"
     port: 8003
   serviceAccount:
-    create: true
+    create: false
     annotations: {}
     name: "user-service-sa"
 
@@ -165,7 +165,7 @@ notification:
     type: "ClusterIP"
     port: 8004
   serviceAccount:
-    create: true
+    create: false
     annotations: {}
     name: "notification-service-sa"
 
