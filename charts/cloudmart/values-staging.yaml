@@ -25,7 +25,7 @@ frontend:
   replicaCount: 1
   image:
     repository: "779417963796.dkr.ecr.ap-south-1.amazonaws.com/cloudmart-frontend-staging"
-    tag: "a927a74-2"
+    tag: "c78bb38-3"
   ingress:
     enabled: true
     className: "alb"
