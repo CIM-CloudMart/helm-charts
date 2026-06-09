@@ -29,7 +29,7 @@ cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
   sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
-  fromEmail: "noreply@cloudmart.example"
+  fromEmail: "paranietharan64@gmail.com"
   dbHost: "cloudmart-postgres-prod.xxxxxxxx.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
