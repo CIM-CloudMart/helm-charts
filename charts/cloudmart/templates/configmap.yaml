@@ -24,6 +24,7 @@ data:
   FROM_EMAIL: {{ .Values.cloudConfig.fromEmail | quote }}
   
   # User Service
+  USER_SERVICE_URL: "http://user-service:8003"
   USER_DB_BACKEND: {{ .Values.config.userDbBackend | default "memory" | quote }}
   DB_HOST: {{ .Values.cloudConfig.dbHost | quote }}
   DB_PORT: {{ .Values.cloudConfig.dbPort | quote }}
