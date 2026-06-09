@@ -60,7 +60,7 @@ user:
   replicaCount: 1
   image:
     repository: "cloudmart-user-service-staging"
-    tag: "latest"
+    tag: "ff1b086-6"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-staging"
