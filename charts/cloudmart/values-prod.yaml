@@ -35,6 +35,7 @@ frontend:
     annotations:
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       alb.ingress.kubernetes.io/target-type: "ip"
+      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:779417963796:regional/webacl/cloudmart-waf-web-acl-prod/21e5b9eb-e638-49e1-bd37-69fa4a5032a8"
     hosts:
       - host: ""
         paths:
