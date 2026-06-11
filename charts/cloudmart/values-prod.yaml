@@ -5,70 +5,88 @@ global:
   awsAccountId: "779417963796"
   xray:
     enabled: true
+
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
   sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
-  fromEmail: "tradeasy.official01@gmail.com"
+  fromEmail: "noreply@cloudmart.example"
   dbHost: "cloudmart-postgres-prod.c3ykkacaqra3.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
+
 externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-prod-B9dXB3"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-prod-YhfYND"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-prod-8GjNKA"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-prod-u2MngK"
+
+
 frontend:
   namespace: cloudmart-prod
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: "cloudmart-frontend-prod"
-    tag: "70a234c-8"
+    tag: "amd64"
   ingress:
     enabled: true
     className: "alb"
     annotations:
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       alb.ingress.kubernetes.io/target-type: "ip"
+      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:779417963796:regional/webacl/cloudmart-waf-web-acl-prod/279012a0-d9aa-4ef9-9c43-287d7c7faf12"
     hosts:
       - host: ""
         paths:
           - path: "/"
             pathType: "Prefix"
+
 product:
   namespace: cloudmart-prod
-  replicaCount: 1
+  replicaCount: 2
+  hpa:
+    minReplicas: 2
+    maxReplicas: 10
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "70a234c-8"
+    tag: "amd64"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-product-service-role-prod"
+
 order:
   namespace: cloudmart-prod
-  replicaCount: 1
+  replicaCount: 2
+  hpa:
+    minReplicas: 2
+    maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
-    tag: "70a234c-8"
+    tag: "amd64"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-order-service-role-prod"
+
 user:
   namespace: cloudmart-prod
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: "cloudmart-user-service-prod"
-    tag: "70a234c-8"
+    tag: "amd64"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-prod"
+
 notification:
   namespace: cloudmart-prod
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-prod"
-    tag: "70a234c-8"
+    tag: "amd64"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-prod"
+  cloudConfig:
+    awsRegion: "ap-south-1"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"

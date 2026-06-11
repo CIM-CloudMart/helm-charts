@@ -29,7 +29,7 @@ cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
   sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
-  fromEmail: "tradeasy.official01@gmail.com"
+  fromEmail: "noreply@cloudmart.example"
   dbHost: "cloudmart-postgres-prod.xxxxxxxx.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
@@ -93,7 +93,7 @@ product:
     type: "ClusterIP"
     port: 8001
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: "product-service-sa"
 
@@ -117,7 +117,7 @@ order:
     type: "ClusterIP"
     port: 8002
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: "order-service-sa"
 
@@ -141,7 +141,7 @@ user:
     type: "ClusterIP"
     port: 8003
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: "user-service-sa"
 
@@ -154,6 +154,9 @@ notification:
     repository: "cloudmart-notification-service-prod"
     tag: "latest"
     pullPolicy: "IfNotPresent"
+  cloudConfig:
+    awsRegion: "ap-south-1"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
   resources:
     requests:
       cpu: "10m"
@@ -165,7 +168,7 @@ notification:
     type: "ClusterIP"
     port: 8004
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: "notification-service-sa"
 

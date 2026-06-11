@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "notification.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: {{ include "notification.fullname" . }}
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+  - type: aws-sqs-queue
+    metadata:
+      queueURL: {{ .Values.cloudConfig.sqsQueueUrl | quote }}
+      queueLength: "50"
+      awsRegion: {{ .Values.cloudConfig.awsRegion | quote }}
