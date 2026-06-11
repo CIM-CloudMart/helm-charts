@@ -74,3 +74,6 @@ notification:
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-staging"
+  cloudConfig:
+    awsRegion: "ap-south-1"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-staging"
