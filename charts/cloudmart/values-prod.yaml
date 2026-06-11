@@ -45,6 +45,9 @@ frontend:
 product:
   namespace: cloudmart-prod
   replicaCount: 2
+  hpa:
+    minReplicas: 2
+    maxReplicas: 10
   image:
     repository: "cloudmart-product-service-prod"
     tag: "amd64"
@@ -55,6 +58,9 @@ product:
 order:
   namespace: cloudmart-prod
   replicaCount: 2
+  hpa:
+    minReplicas: 2
+    maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
     tag: "amd64"
