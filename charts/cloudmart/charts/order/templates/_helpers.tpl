@@ -48,7 +48,6 @@ Selector labels
 app: {{ include "order.name" . }}
 app.kubernetes.io/name: {{ include "order.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-helm.sh/chart: {{ include "order.chart" . }}
 {{- end -}}
 
 {{/*

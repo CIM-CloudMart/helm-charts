@@ -48,7 +48,6 @@ Selector labels
 app: {{ include "notification.name" . }}
 app.kubernetes.io/name: {{ include "notification.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-helm.sh/chart: {{ include "notification.chart" . }}
 {{- end -}}
 
 {{/*
