@@ -19,6 +19,9 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-python: "false"
+        cloudwatch.aws.amazon.com/auto-annotate-python: "false"
       labels:
         {{- include "user.selectorLabels" . | nindent 8 }}
     spec:
