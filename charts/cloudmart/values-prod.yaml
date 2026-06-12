@@ -5,7 +5,6 @@ global:
   awsAccountId: "779417963796"
   xray:
     enabled: true
-
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
@@ -14,21 +13,18 @@ cloudConfig:
   dbHost: "cloudmart-postgres-prod.c3ykkacaqra3.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
-
 externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
   dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-prod-8GjNKA"
   jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-prod-u2MngK"
-
-
 frontend:
   namespace: cloudmart-prod
   replicaCount: 2
   image:
     repository: "cloudmart-frontend-prod"
-    tag: "amd64"
+    tag: "f2b9d23-23"
   ingress:
     enabled: true
     className: "alb"
@@ -41,7 +37,6 @@ frontend:
         paths:
           - path: "/"
             pathType: "Prefix"
-
 product:
   namespace: cloudmart-prod
   replicaCount: 2
@@ -50,11 +45,10 @@ product:
     maxReplicas: 10
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "amd64"
+    tag: "f2b9d23-23"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-product-service-role-prod"
-
 order:
   namespace: cloudmart-prod
   replicaCount: 2
@@ -63,27 +57,25 @@ order:
     maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
-    tag: "amd64"
+    tag: "f2b9d23-23"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-order-service-role-prod"
-
 user:
   namespace: cloudmart-prod
   replicaCount: 2
   image:
     repository: "cloudmart-user-service-prod"
-    tag: "amd64"
+    tag: "f2b9d23-23"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-prod"
-
 notification:
   namespace: cloudmart-prod
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-prod"
-    tag: "amd64"
+    tag: "f2b9d23-23"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-prod"
