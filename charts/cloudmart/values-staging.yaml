@@ -25,7 +25,7 @@ frontend:
   replicaCount: 1
   image:
     repository: "cloudmart-frontend-staging"
-    tag: "bbf97b2-35"
+    tag: "374da77-36"
   ingress:
     enabled: true
     className: "alb"
@@ -43,7 +43,7 @@ product:
   replicaCount: 1
   image:
     repository: "cloudmart-product-service-staging"
-    tag: "bbf97b2-35"
+    tag: "374da77-36"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-staging"
@@ -52,7 +52,7 @@ order:
   replicaCount: 1
   image:
     repository: "cloudmart-order-service-staging"
-    tag: "bbf97b2-35"
+    tag: "374da77-36"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-staging"
@@ -61,7 +61,7 @@ user:
   replicaCount: 1
   image:
     repository: "cloudmart-user-service-staging"
-    tag: "bbf97b2-35"
+    tag: "374da77-36"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-staging"
@@ -70,7 +70,7 @@ notification:
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-staging"
-    tag: "bbf97b2-35"
+    tag: "374da77-36"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-staging"
