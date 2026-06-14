@@ -24,7 +24,7 @@ frontend:
   replicaCount: 1
   image:
     repository: "cloudmart-frontend-prod"
-    tag: "1799c97-31"
+    tag: "eda6cbd771f5a05c212f4fcffbc7b2d383cd08c2"
   ingress:
     enabled: true
     className: "alb"
@@ -59,7 +59,7 @@ product:
     enabled: true
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "c1f0ee7-37"
+    tag: "eda6cbd771f5a05c212f4fcffbc7b2d383cd08c2"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"
@@ -71,7 +71,7 @@ order:
     maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
-    tag: "1799c97-31"
+    tag: "eda6cbd771f5a05c212f4fcffbc7b2d383cd08c2"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-prod"
@@ -80,7 +80,7 @@ user:
   replicaCount: 1
   image:
     repository: "cloudmart-user-service-prod"
-    tag: "1799c97-31"
+    tag: "eda6cbd771f5a05c212f4fcffbc7b2d383cd08c2"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-prod"
@@ -89,7 +89,7 @@ notification:
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-prod"
-    tag: "1799c97-31"
+    tag: "eda6cbd771f5a05c212f4fcffbc7b2d383cd08c2"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-prod"
