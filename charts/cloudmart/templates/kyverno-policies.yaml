@@ -77,5 +77,5 @@ spec:
         pattern:
           spec:
             containers:
-              - image: "{{ .Values.global.awsAccountId }}.dkr.ecr.{{ .Values.cloudConfig.awsRegion }}.amazonaws.com/*"
+              - image: "{{ .Values.global.awsAccountId }}.dkr.ecr.{{ .Values.cloudConfig.awsRegion }}.amazonaws.com/* | 602401143452.dkr.ecr.{{ .Values.cloudConfig.awsRegion }}.amazonaws.com/* | public.ecr.aws/* | amazon/aws-xray-daemon:* | docker.io/amazon/aws-xray-daemon:*"
 {{- end }}
