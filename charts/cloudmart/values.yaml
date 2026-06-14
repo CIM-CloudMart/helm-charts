@@ -1,9 +1,9 @@
 namespace: "cloudmart-prod"
 global:
   project: "cloudmart"
-  awsAccountId: "779417963796"
+  awsAccountId: "427712745475"
   # Registry URI to prepend to all images (e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com)
-  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
+  registry: "427712745475.dkr.ecr.ap-south-1.amazonaws.com"
   environment: prod
   namespace: cloudmart-prod
   xray:
@@ -28,7 +28,7 @@ config:
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
-  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
+  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-prod"
   fromEmail: "noreply@cloudmart.example"
   dbHost: "cloudmart-postgres-prod.xxxxxxxx.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
@@ -156,7 +156,7 @@ notification:
     pullPolicy: "IfNotPresent"
   cloudConfig:
     awsRegion: "ap-south-1"
-    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-prod"
   resources:
     requests:
       cpu: "10m"

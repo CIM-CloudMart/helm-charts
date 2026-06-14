@@ -2,24 +2,24 @@ namespace: cloudmart-staging
 global:
   environment: staging
   namespace: cloudmart-staging
-  awsAccountId: "779417963796"
-  registry: "779417963796.dkr.ecr.ap-south-1.amazonaws.com"
+  awsAccountId: "427712745475"
+  registry: "427712745475.dkr.ecr.ap-south-1.amazonaws.com"
   xray:
     enabled: true
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-staging"
-  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-staging"
+  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-staging"
   fromEmail: "noreply@cloudmart.example"
-  dbHost: "cloudmart-postgres-staging.c3ykkacaqra3.ap-south-1.rds.amazonaws.com"
+  dbHost: "cloudmart-postgres-staging.cjw4kaiiw5dg.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
 externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-staging-is8yj2"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-staging-1iV9iY"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-staging-SvnViN"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-staging-atthMP"
 frontend:
   namespace: cloudmart-staging
   replicaCount: 1
@@ -32,7 +32,7 @@ frontend:
     annotations:
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       alb.ingress.kubernetes.io/target-type: "ip"
-      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:779417963796:regional/webacl/cloudmart-waf-web-acl-staging/16e6ee98-acdd-4d1d-9a92-d145af974f38"
+      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:427712745475:regional/webacl/cloudmart-waf-web-acl-staging/3e4cd9da-efae-4f08-9214-1bf73cea9a51"
     hosts:
       - host: ""
         paths:
@@ -46,7 +46,7 @@ product:
     tag: "a13c345-34"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-product-service-role-staging"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-staging"
 order:
   namespace: cloudmart-staging
   replicaCount: 1
@@ -55,7 +55,7 @@ order:
     tag: "a13c345-34"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-order-service-role-staging"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-staging"
 user:
   namespace: cloudmart-staging
   replicaCount: 1
@@ -64,7 +64,7 @@ user:
     tag: "a13c345-34"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-staging"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-staging"
 notification:
   namespace: cloudmart-staging
   replicaCount: 1
@@ -73,7 +73,7 @@ notification:
     tag: "a13c345-34"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-staging"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-staging"
   cloudConfig:
     awsRegion: "ap-south-1"
-    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-staging"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-staging"

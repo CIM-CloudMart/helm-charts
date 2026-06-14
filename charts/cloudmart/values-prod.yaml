@@ -2,23 +2,23 @@ namespace: cloudmart-prod
 global:
   environment: prod
   namespace: cloudmart-prod
-  awsAccountId: "779417963796"
+  awsAccountId: "427712745475"
   xray:
     enabled: true
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-prod"
-  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
+  sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-prod"
   fromEmail: "noreply@cloudmart.example"
-  dbHost: "cloudmart-postgres-prod.c3ykkacaqra3.ap-south-1.rds.amazonaws.com"
+  dbHost: "cloudmart-postgres-prod.cjw4kaiiw5dg.ap-south-1.rds.amazonaws.com"
   dbPort: "5432"
   dbName: "cloudmart"
 externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-db-credentials-prod-8GjNKA"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:779417963796:secret:cloudmart-jwt-secret-prod-u2MngK"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-prod-r7s8R4"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-q9gzq4"
 frontend:
   namespace: cloudmart-prod
   replicaCount: 2
@@ -31,7 +31,7 @@ frontend:
     annotations:
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       alb.ingress.kubernetes.io/target-type: "ip"
-      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:779417963796:regional/webacl/cloudmart-waf-web-acl-prod/279012a0-d9aa-4ef9-9c43-287d7c7faf12"
+      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:427712745475:regional/webacl/cloudmart-waf-web-acl-prod/9e2cd070-0af3-463d-b6c5-c7b18dc79371"
     hosts:
       - host: ""
         paths:
@@ -48,7 +48,7 @@ product:
     tag: "1799c97-31"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-product-service-role-prod"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"
 order:
   namespace: cloudmart-prod
   replicaCount: 2
@@ -60,7 +60,7 @@ order:
     tag: "1799c97-31"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-order-service-role-prod"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-prod"
 user:
   namespace: cloudmart-prod
   replicaCount: 2
@@ -69,7 +69,7 @@ user:
     tag: "1799c97-31"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-user-service-role-prod"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-prod"
 notification:
   namespace: cloudmart-prod
   replicaCount: 1
@@ -78,7 +78,7 @@ notification:
     tag: "1799c97-31"
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::779417963796:role/cloudmart-notification-service-role-prod"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-prod"
   cloudConfig:
     awsRegion: "ap-south-1"
-    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/779417963796/cloudmart-order-events-prod"
+    sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-prod"
