@@ -46,7 +46,7 @@ externalSecrets:
 frontend:
   namespace: "cloudmart-prod"
   fullnameOverride: "frontend"
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-frontend-prod"
     tag: "latest"
@@ -77,7 +77,7 @@ frontend:
 product:
   namespace: "cloudmart-prod"
   fullnameOverride: "product-service"
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-product-service-prod"
     tag: "latest"
@@ -101,7 +101,7 @@ product:
 order:
   namespace: "cloudmart-prod"
   fullnameOverride: "order-service"
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-order-service-prod"
     tag: "latest"
@@ -125,7 +125,7 @@ order:
 user:
   namespace: "cloudmart-prod"
   fullnameOverride: "user-service"
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-user-service-prod"
     tag: "latest"

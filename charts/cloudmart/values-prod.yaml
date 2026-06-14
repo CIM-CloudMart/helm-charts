@@ -21,7 +21,7 @@ externalSecrets:
   jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-q9gzq4"
 frontend:
   namespace: cloudmart-prod
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-frontend-prod"
     tag: "1799c97-31"
@@ -39,9 +39,9 @@ frontend:
             pathType: "Prefix"
 product:
   namespace: cloudmart-prod
-  replicaCount: 2
+  replicaCount: 1
   hpa:
-    minReplicas: 2
+    minReplicas: 1
     maxReplicas: 10
   image:
     repository: "cloudmart-product-service-prod"
@@ -51,9 +51,9 @@ product:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"
 order:
   namespace: cloudmart-prod
-  replicaCount: 2
+  replicaCount: 1
   hpa:
-    minReplicas: 2
+    minReplicas: 1
     maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
@@ -63,7 +63,7 @@ order:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-prod"
 user:
   namespace: cloudmart-prod
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: "cloudmart-user-service-prod"
     tag: "1799c97-31"
