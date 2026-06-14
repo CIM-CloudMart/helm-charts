@@ -1,0 +1,20 @@
+{{- if .Values.argoRollouts.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ include "product.fullname" . }}-error-rate
+  namespace: {{ .Release.Namespace }}
+spec:
+  metrics:
+  - name: error-rate
+    interval: 30s
+    successCondition: result[0] < 0.01
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://prometheus-server.monitoring.svc.cluster.local:80
+        query: |
+          (sum(rate(flask_http_request_duration_seconds_count{status=~"5..", kubernetes_namespace="{{ .Release.Namespace }}"}[2m])) or on() vector(0))
+          /
+          (sum(rate(flask_http_request_duration_seconds_count{kubernetes_namespace="{{ .Release.Namespace }}"}[2m])) or on() vector(1))
+{{- end }}

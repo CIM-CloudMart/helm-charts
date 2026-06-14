@@ -43,6 +43,8 @@ product:
   hpa:
     minReplicas: 1
     maxReplicas: 10
+  argoRollouts:
+    enabled: true
   image:
     repository: "cloudmart-product-service-prod"
     tag: "1799c97-31"

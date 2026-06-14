@@ -41,6 +41,8 @@ frontend:
 product:
   namespace: cloudmart-staging
   replicaCount: 1
+  argoRollouts:
+    enabled: true
   image:
     repository: "cloudmart-product-service-staging"
     tag: "374da77-36"

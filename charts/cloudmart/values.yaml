@@ -78,6 +78,8 @@ product:
   namespace: "cloudmart-prod"
   fullnameOverride: "product-service"
   replicaCount: 1
+  argoRollouts:
+    enabled: true
   image:
     repository: "cloudmart-product-service-prod"
     tag: "latest"

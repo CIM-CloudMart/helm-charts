@@ -1,22 +1,43 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: {{ if .Values.argoRollouts.enabled }}argoproj.io/v1alpha1{{ else }}apps/v1{{ end }}
+kind: {{ if .Values.argoRollouts.enabled }}Rollout{{ else }}Deployment{{ end }}
 metadata:
   name: {{ include "product.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "product.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.argoRollouts.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   revisionHistoryLimit: 3
   minReadySeconds: 5
   selector:
     matchLabels:
       {{- include "product.selectorLabels" . | nindent 6 }}
+  {{- if .Values.argoRollouts.enabled }}
+  strategy:
+    canary:
+      analysis:
+        templates:
+          - templateName: {{ include "product.fullname" . }}-error-rate
+      stableService: {{ include "product.fullname" . }}-stable
+      canaryService: {{ include "product.fullname" . }}-canary
+      trafficRouting:
+        alb:
+          ingress: frontend
+          servicePort: {{ .Values.service.port }}
+      steps:
+        - setWeight: 10
+        - pause: { duration: 1m }
+        - setWeight: 50
+        - pause: { duration: 1m }
+  {{- else }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
+  {{- end }}
   template:
     metadata:
       labels:
