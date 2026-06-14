@@ -40,6 +40,10 @@ spec:
   {{- end }}
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: {{ .Values.service.port | quote }}
+        prometheus.io/path: "/metrics"
       labels:
         {{- include "product.selectorLabels" . | nindent 8 }}
     spec:
