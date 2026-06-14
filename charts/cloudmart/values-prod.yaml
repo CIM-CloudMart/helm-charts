@@ -37,6 +37,18 @@ frontend:
         paths:
           - path: "/"
             pathType: "Prefix"
+          - path: "/api/products"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
+          - path: "/api/categories"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
+          - path: "/api/trigger-error"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
 product:
   namespace: cloudmart-prod
   replicaCount: 1
@@ -47,7 +59,7 @@ product:
     enabled: true
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "1799c97-31"
+    tag: "c1f0ee7-37"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"

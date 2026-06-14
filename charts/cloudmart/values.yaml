@@ -72,6 +72,18 @@ frontend:
         paths:
           - path: "/"
             pathType: "Prefix"
+          - path: "/api/products"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
+          - path: "/api/categories"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
+          - path: "/api/trigger-error"
+            pathType: "Prefix"
+            backendService: "product-service-stable"
+            backendPort: 8001
 
 # Subchart: product
 product:
