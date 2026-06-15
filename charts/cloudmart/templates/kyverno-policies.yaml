@@ -8,7 +8,7 @@ metadata:
     policies.kyverno.io/description: "Enforces that pods run as a non-root user."
   # Note: ClusterPolicies are cluster-scoped, do not set metadata.namespace
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: check-run-as-non-root
@@ -34,7 +34,7 @@ metadata:
     policies.kyverno.io/title: "Disallow Privileged Containers"
     policies.kyverno.io/description: "Disallows the creation of privileged containers."
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: check-privileged
@@ -61,7 +61,7 @@ metadata:
     policies.kyverno.io/title: "Restrict Image Registry"
     policies.kyverno.io/description: "Restricts image pulls to the trusted Amazon ECR registry only."
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: check-image-registry
