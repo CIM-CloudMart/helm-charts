@@ -17,8 +17,8 @@ externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-prod-r7s8R4"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-q9gzq4"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-prod-S8p6CF"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-G8sS3G"
 frontend:
   namespace: cloudmart-prod
   replicaCount: 1

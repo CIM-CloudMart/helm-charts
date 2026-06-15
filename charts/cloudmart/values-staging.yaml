@@ -18,8 +18,8 @@ externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-staging-SvnViN"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-staging-atthMP"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-staging-zYrMeX"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-staging-jWcFqW"
 frontend:
   namespace: cloudmart-staging
   replicaCount: 1
