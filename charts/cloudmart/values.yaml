@@ -92,6 +92,8 @@ product:
   replicaCount: 1
   argoRollouts:
     enabled: true
+  canary:
+    enabled: false
   image:
     repository: "cloudmart-product-service-prod"
     tag: "latest"
@@ -189,3 +191,50 @@ notification:
 # Policy Engine (Kyverno) configurations
 kyverno:
   enabled: true
+
+# Network Security Policies configuration
+networkPolicy:
+  enabled: true
+  # ALB Subnets CIDRs for restricting Ingress traffic to the frontend.
+  # Defaults to the public subnets of the VPC.
+  albSubnets:
+    - 10.0.0.0/20
+    - 10.0.16.0/20
+
+  # Egress destination CIDRs for each service
+  product:
+    # Product service accesses DynamoDB.
+    # We default to the VPC CIDR and specific AWS DynamoDB IP ranges in ap-south-1.
+    dynamodbEndpoints:
+      - 10.0.0.0/16
+      - 52.94.0.0/15
+      - 52.119.224.0/20
+  
+  order:
+    # Order service accesses SQS and Product service.
+    # SQS endpoint CIDR. If using SQS Interface VPC Endpoint, it resides in the private app subnets.
+    sqsEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+
+  notification:
+    # Notification service accesses SQS and SES.
+    # If using Interface VPC Endpoints, they reside in private app subnets.
+    sqsEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+    sesEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+
+  user:
+    # User service accesses RDS PostgreSQL and Secrets Manager.
+    # RDS database resides in the private data subnets.
+    rdsEndpoints:
+      - 10.0.64.0/20
+      - 10.0.80.0/20
+    # Secrets Manager Interface VPC Endpoint resides in private app subnets.
+    secretsManagerEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+
