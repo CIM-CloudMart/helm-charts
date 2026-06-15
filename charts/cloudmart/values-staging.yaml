@@ -25,7 +25,7 @@ frontend:
   replicaCount: 1
   image:
     repository: "cloudmart-frontend-staging"
-    tag: "91396f1129a90955a2f53dfd77ecf976bb02ce67"
+    tag: "8450e1d-37"
   ingress:
     enabled: true
     className: "alb"
@@ -59,7 +59,7 @@ product:
     enabled: false
   image:
     repository: "cloudmart-product-service-staging"
-    tag: "91396f1129a90955a2f53dfd77ecf976bb02ce67"
+    tag: "8450e1d-37"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-staging"
@@ -68,7 +68,7 @@ order:
   replicaCount: 1
   image:
     repository: "cloudmart-order-service-staging"
-    tag: "91396f1129a90955a2f53dfd77ecf976bb02ce67"
+    tag: "8450e1d-37"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-staging"
@@ -77,7 +77,7 @@ user:
   replicaCount: 1
   image:
     repository: "cloudmart-user-service-staging"
-    tag: "91396f1129a90955a2f53dfd77ecf976bb02ce67"
+    tag: "8450e1d-37"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-staging"
@@ -86,14 +86,13 @@ notification:
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-staging"
-    tag: "91396f1129a90955a2f53dfd77ecf976bb02ce67"
+    tag: "8450e1d-37"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-staging"
   cloudConfig:
     awsRegion: "ap-south-1"
     sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-staging"
-
 # Network Security Policies configuration
 networkPolicy:
   enabled: true
@@ -102,7 +101,6 @@ networkPolicy:
   albSubnets:
     - 10.0.0.0/20
     - 10.0.16.0/20
-
   # Egress destination CIDRs for each service
   product:
     # Product service accesses DynamoDB.
@@ -111,14 +109,12 @@ networkPolicy:
       - 10.0.0.0/16
       - 52.94.0.0/15
       - 52.119.224.0/20
-  
   order:
     # Order service accesses SQS and Product service.
     # SQS endpoint CIDR. If using SQS Interface VPC Endpoint, it resides in the private app subnets.
     sqsEndpoints:
       - 10.0.32.0/20
       - 10.0.48.0/20
-
   notification:
     # Notification service accesses SQS and SES.
     # If using Interface VPC Endpoints, they reside in private app subnets.
@@ -128,7 +124,6 @@ networkPolicy:
     sesEndpoints:
       - 10.0.32.0/20
       - 10.0.48.0/20
-
   user:
     # User service accesses RDS PostgreSQL and Secrets Manager.
     # RDS database resides in the private data subnets.
@@ -139,4 +134,3 @@ networkPolicy:
     secretsManagerEndpoints:
       - 10.0.32.0/20
       - 10.0.48.0/20
-
