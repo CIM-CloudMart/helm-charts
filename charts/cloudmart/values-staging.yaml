@@ -5,7 +5,7 @@ global:
   awsAccountId: "427712745475"
   registry: "427712745475.dkr.ecr.ap-south-1.amazonaws.com"
   xray:
-    enabled: false
+    enabled: true
 cloudConfig:
   awsRegion: "ap-south-1"
   dynamoDbTable: "cloudmart-products-staging"
