@@ -1,0 +1,22 @@
+{{- if .Values.canary.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ include "product.fullname" . }}-error-rate
+  namespace: {{ .Release.Namespace }}
+spec:
+  args:
+    - name: service-name
+  metrics:
+    - name: error-rate
+      interval: 30s
+      successCondition: result[0] < 0.01
+      failureLimit: 1
+      provider:
+        prometheus:
+          address: http://prometheus-k8s.monitoring.svc.cluster.local:9090
+          query: |
+            sum(rate(http_requests_total{status=~"5..", service="{{ `{{args.service-name}}` }}"}[1m]))
+            /
+            sum(rate(http_requests_total{service="{{ `{{args.service-name}}` }}"}[1m]))
+{{- end }}
