@@ -61,7 +61,7 @@ product:
     enabled: false
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
+    tag: "eb42f0c-42"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"
