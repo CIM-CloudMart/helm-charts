@@ -17,21 +17,21 @@ externalSecrets:
   enabled: true
   secretStore:
     roleArn: ""
-  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-prod-r7s8R4"
-  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-q9gzq4"
+  dbSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-db-credentials-prod-S8p6CF"
+  jwtSecretArn: "arn:aws:secretsmanager:ap-south-1:427712745475:secret:cloudmart-jwt-secret-prod-G8sS3G"
 frontend:
   namespace: cloudmart-prod
   replicaCount: 1
   image:
     repository: "cloudmart-frontend-prod"
-    tag: "0ff7bd30f61f53ebab49e48b82696f3e37e92fe4"
+    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
   ingress:
     enabled: true
     className: "alb"
     annotations:
       alb.ingress.kubernetes.io/scheme: "internet-facing"
       alb.ingress.kubernetes.io/target-type: "ip"
-      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:427712745475:regional/webacl/cloudmart-waf-web-acl-prod/9e2cd070-0af3-463d-b6c5-c7b18dc79371"
+      alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-south-1:427712745475:regional/webacl/cloudmart-waf-web-acl-prod/96fee21e-4d1c-461d-af14-d7f2376cd458"
     hosts:
       - host: ""
         paths:
@@ -57,9 +57,11 @@ product:
     maxReplicas: 10
   argoRollouts:
     enabled: true
+  canary:
+    enabled: false
   image:
     repository: "cloudmart-product-service-prod"
-    tag: "0ff7bd30f61f53ebab49e48b82696f3e37e92fe4"
+    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-prod"
@@ -71,7 +73,7 @@ order:
     maxReplicas: 10
   image:
     repository: "cloudmart-order-service-prod"
-    tag: "0ff7bd30f61f53ebab49e48b82696f3e37e92fe4"
+    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-order-service-role-prod"
@@ -80,7 +82,7 @@ user:
   replicaCount: 1
   image:
     repository: "cloudmart-user-service-prod"
-    tag: "0ff7bd30f61f53ebab49e48b82696f3e37e92fe4"
+    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-prod"
@@ -89,10 +91,51 @@ notification:
   replicaCount: 1
   image:
     repository: "cloudmart-notification-service-prod"
-    tag: "0ff7bd30f61f53ebab49e48b82696f3e37e92fe4"
+    tag: "eb42f0c541b688a315a9c1d591a664165a285b32"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-notification-service-role-prod"
   cloudConfig:
     awsRegion: "ap-south-1"
     sqsQueueUrl: "https://sqs.ap-south-1.amazonaws.com/427712745475/cloudmart-order-events-prod"
+# Network Security Policies configuration
+networkPolicy:
+  enabled: true
+  # ALB Subnets CIDRs for restricting Ingress traffic to the frontend.
+  # Defaults to the public subnets of the VPC.
+  albSubnets:
+    - 10.0.0.0/20
+    - 10.0.16.0/20
+  # Egress destination CIDRs for each service
+  product:
+    # Product service accesses DynamoDB.
+    # We default to the VPC CIDR and specific AWS DynamoDB IP ranges in ap-south-1.
+    dynamodbEndpoints:
+      - 10.0.0.0/16
+      - 52.94.0.0/15
+      - 52.119.224.0/20
+  order:
+    # Order service accesses SQS and Product service.
+    # SQS endpoint CIDR. If using SQS Interface VPC Endpoint, it resides in the private app subnets.
+    sqsEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+  notification:
+    # Notification service accesses SQS and SES.
+    # If using Interface VPC Endpoints, they reside in private app subnets.
+    sqsEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+    sesEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20
+  user:
+    # User service accesses RDS PostgreSQL and Secrets Manager.
+    # RDS database resides in the private data subnets.
+    rdsEndpoints:
+      - 10.0.64.0/20
+      - 10.0.80.0/20
+    # Secrets Manager Interface VPC Endpoint resides in private app subnets.
+    secretsManagerEndpoints:
+      - 10.0.32.0/20
+      - 10.0.48.0/20

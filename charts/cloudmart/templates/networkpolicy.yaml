@@ -45,8 +45,13 @@ spec:
     - Ingress
     - Egress
   ingress:
-    # Allow external web traffic via ALB Ingress Controller
-    - ports:
+    # Allow external web traffic only via ALB subnets
+    - from:
+        {{- range .Values.networkPolicy.albSubnets }}
+        - ipBlock:
+            cidr: {{ . }}
+        {{- end }}
+      ports:
         - protocol: TCP
           port: 80
   egress:
@@ -111,10 +116,15 @@ spec:
         - protocol: TCP
           port: 8001
   egress:
-    # Allow egress to external AWS services (DynamoDB gateway, S3 gateway/interface)
+    # Allow egress to DynamoDB endpoint only
     - to:
+        {{- range .Values.networkPolicy.product.dynamodbEndpoints }}
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 443
 ---
 # 5. Order Service Network Policy
 apiVersion: networking.k8s.io/v1
@@ -153,10 +163,15 @@ spec:
       ports:
         - protocol: TCP
           port: 8001
-    # Allow connection to external AWS services (SQS endpoint or internet)
+    # Allow connection to SQS endpoint only
     - to:
+        {{- range .Values.networkPolicy.order.sqsEndpoints }}
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 443
 ---
 # 6. User Service Network Policy
 apiVersion: networking.k8s.io/v1
@@ -185,10 +200,24 @@ spec:
         - protocol: TCP
           port: 8003
   egress:
-    # Allow connection to external AWS services (RDS PostgreSQL database and Secrets Manager)
+    # Allow egress to RDS PostgreSQL database only
     - to:
+        {{- range .Values.networkPolicy.user.rdsEndpoints }}
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 5432
+    # Allow egress to Secrets Manager only
+    - to:
+        {{- range .Values.networkPolicy.user.secretsManagerEndpoints }}
+        - ipBlock:
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 443
 ---
 # 7. Notification Service Network Policy
 apiVersion: networking.k8s.io/v1
@@ -207,7 +236,22 @@ spec:
     - Egress
   ingress: [] # No ingress traffic allowed to this asynchronous worker
   egress:
-    # Allow connection to external AWS services (SQS queue to read notifications, and SES to send emails)
+    # Allow connection to SQS queue only to read notifications
     - to:
+        {{- range .Values.networkPolicy.notification.sqsEndpoints }}
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 443
+    # Allow connection to SES only to send emails
+    - to:
+        {{- range .Values.networkPolicy.notification.sesEndpoints }}
+        - ipBlock:
+            cidr: {{ . }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: 443
+
