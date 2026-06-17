@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "product.fullname" . }}
+  name: product-service
 spec:
   scaleTargetRef:
-    apiVersion: {{ if .Values.argoRollouts.enabled }}argoproj.io/v1alpha1{{ else }}apps/v1{{ end }}
-    kind: {{ if .Values.argoRollouts.enabled }}Rollout{{ else }}Deployment{{ end }}
-    name: {{ include "product.fullname" . }}
-  minReplicas: {{ .Values.hpa.minReplicas }}
-  maxReplicas: {{ .Values.hpa.maxReplicas }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: product-service
+  minReplicas: 1
+  maxReplicas: 10
   metrics:
     - type: Resource
       resource:
