@@ -59,7 +59,7 @@ product:
     enabled: false
   image:
     repository: "cloudmart-product-service-staging"
-    tag: "9fad5a92b2b9bf01c28b975a90a5897fde952add"
+    tag: "eb42f0c-41"
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-product-service-role-staging"
