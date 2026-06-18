@@ -48,6 +48,11 @@ spec:
                 configMapKeyRef:
                   name: {{ .Release.Name }}-config
                   key: ORDER_SERVICE_URL
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-config
+                  key: USER_SERVICE_URL
             - name: QUEUE_BACKEND
               valueFrom:
                 configMapKeyRef:

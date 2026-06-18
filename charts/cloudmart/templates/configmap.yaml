@@ -22,6 +22,7 @@ data:
   NOTIFICATION_EMAIL_BACKEND: {{ .Values.config.notificationEmailBackend | quote }}
   NOTIFICATION_POLL_INTERVAL: {{ .Values.config.notificationPollInterval | quote }}
   FROM_EMAIL: {{ .Values.cloudConfig.fromEmail | quote }}
+  USER_SERVICE_URL: "http://user-service:8003"
   
   # User Service
   USER_DB_BACKEND: {{ .Values.config.userDbBackend | default "memory" | quote }}
