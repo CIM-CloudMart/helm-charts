@@ -14,3 +14,4 @@ spec:
       queueURL: {{ .Values.cloudConfig.sqsQueueUrl | quote }}
       queueLength: "50"
       awsRegion: {{ .Values.cloudConfig.awsRegion | quote }}
+      identityOwner: operator
