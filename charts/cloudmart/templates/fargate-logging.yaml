@@ -14,28 +14,44 @@ metadata:
 data:
   flb_log_cw: "true"
   
-  filters.conf: |
-    [FILTER]
-        Name parser
-        Match *
-        Key_Name log
-        Parser crio
-        Reserve_Key On
-        
   output.conf: |
     [OUTPUT]
         Name cloudwatch_logs
-        Match *
+        Match *frontend*
         region {{ .Values.cloudConfig.awsRegion }}
-        log_group_name /cloudmart/fargate-logs
-        log_stream_prefix fargate-
+        log_group_name /cloudmart/frontend-{{ .Values.global.environment }}
+        log_stream_prefix frontend-
         auto_create_group true
-        
-  parsers.conf: |
-    [PARSER]
-        Name crio
-        Format Regex
-        Regex ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
-        Time_Key time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *product*
+        region {{ .Values.cloudConfig.awsRegion }}
+        log_group_name /cloudmart/product-service-{{ .Values.global.environment }}
+        log_stream_prefix product-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *order*
+        region {{ .Values.cloudConfig.awsRegion }}
+        log_group_name /cloudmart/order-service-{{ .Values.global.environment }}
+        log_stream_prefix order-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *user*
+        region {{ .Values.cloudConfig.awsRegion }}
+        log_group_name /cloudmart/user-service-{{ .Values.global.environment }}
+        log_stream_prefix user-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *notification*
+        region {{ .Values.cloudConfig.awsRegion }}
+        log_group_name /cloudmart/notification-service-{{ .Values.global.environment }}
+        log_stream_prefix notification-
+        auto_create_group true
 {{- end }}
