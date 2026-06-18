@@ -81,6 +81,9 @@ user:
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-staging"
+  jwtServiceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-jwt-role-staging"
 notification:
   namespace: cloudmart-staging
   replicaCount: 1

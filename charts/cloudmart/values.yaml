@@ -160,6 +160,8 @@ user:
     create: true
     annotations: {}
     name: "user-service-sa"
+  jwtServiceAccount:
+    annotations: {}
 
 # Subchart: notification
 notification:
@@ -237,4 +239,7 @@ networkPolicy:
     secretsManagerEndpoints:
       - 10.0.32.0/20
       - 10.0.48.0/20
+
+fargateLogging:
+  enabled: false
 

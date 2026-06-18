@@ -86,6 +86,9 @@ user:
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-service-role-prod"
+  jwtServiceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::427712745475:role/cloudmart-user-jwt-role-prod"
 notification:
   namespace: cloudmart-prod
   replicaCount: 1
