@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aws-observability
+  labels:
+    aws-observability: "enabled"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-logging
+  namespace: aws-observability
+data:
+  flb_log_cw: "true"
+  
+  output.conf: |
+    # ==================== Staging Environment ====================
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *frontend*cloudmart-staging*
+        region ap-south-1
+        log_group_name /cloudmart/frontend-staging
+        log_stream_prefix frontend-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *product*cloudmart-staging*
+        region ap-south-1
+        log_group_name /cloudmart/product-service-staging
+        log_stream_prefix product-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *order*cloudmart-staging*
+        region ap-south-1
+        log_group_name /cloudmart/order-service-staging
+        log_stream_prefix order-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *user*cloudmart-staging*
+        region ap-south-1
+        log_group_name /cloudmart/user-service-staging
+        log_stream_prefix user-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *notification*cloudmart-staging*
+        region ap-south-1
+        log_group_name /cloudmart/notification-service-staging
+        log_stream_prefix notification-
+        auto_create_group true
+
+    # ==================== Production Environment ====================
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *frontend*cloudmart-prod*
+        region ap-south-1
+        log_group_name /cloudmart/frontend-prod
+        log_stream_prefix frontend-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *product*cloudmart-prod*
+        region ap-south-1
+        log_group_name /cloudmart/product-service-prod
+        log_stream_prefix product-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *order*cloudmart-prod*
+        region ap-south-1
+        log_group_name /cloudmart/order-service-prod
+        log_stream_prefix order-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *user*cloudmart-prod*
+        region ap-south-1
+        log_group_name /cloudmart/user-service-prod
+        log_stream_prefix user-
+        auto_create_group true
+
+    [OUTPUT]
+        Name cloudwatch_logs
+        Match *notification*cloudmart-prod*
+        region ap-south-1
+        log_group_name /cloudmart/notification-service-prod
+        log_stream_prefix notification-
+        auto_create_group true
